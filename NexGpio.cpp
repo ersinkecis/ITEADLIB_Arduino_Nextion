@@ -78,7 +78,7 @@ bool NexGpio::analog_write(uint32_t port,uint32_t value)
     cmd += '=';
     cmd += buf;
     
-    Serial.print(cmd);
+    //Serial.print(cmd);
     sendCommand(cmd.c_str());
     return recvRetCommandFinished();   
 }
