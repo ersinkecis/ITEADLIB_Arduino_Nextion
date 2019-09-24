@@ -120,7 +120,7 @@ Latest source code(master branch) can be downloaded:
 You can also clone it via git:
 
     git clone   https://github.com/itead/ITEADLIB_Arduino_Nextion
-    fixed clone https://github.com/ersinkecis/ITEADLIB_Arduino_Nextion
+    fixed clone https://github.com/ersinkecis/ITEADLIB_Arduino_Nextion_ALL_FIXED
 
 ## Releases(stable)
 
@@ -183,7 +183,7 @@ dbSerial and redirect nexSerial to Serial(Refer to section:`Serial configuration
 
 <http://blog.iteadstudio.com/nextion-tutorial-based-on-nextion-arduino-library/>
 
-<https://github.com/ersinkecis/ITEADLIB_Arduino_Nextion>
+<https://github.com/ersinkecis/ITEADLIB_Arduino_Nextion_ALL_FIXED>
 
 <https://ersinkecis.blogspot.com/>
 
