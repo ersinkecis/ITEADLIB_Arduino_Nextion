@@ -182,8 +182,11 @@ dbSerial and redirect nexSerial to Serial(Refer to section:`Serial configuration
 # Useful Links
 
 <http://blog.iteadstudio.com/nextion-tutorial-based-on-nextion-arduino-library/>
+
 <https://github.com/ersinkecis/ITEADLIB_Arduino_Nextion>
+
 <https://ersinkecis.blogspot.com/>
+
 <https://www.youtube.com/user/ersinkecis>
 
 # License
