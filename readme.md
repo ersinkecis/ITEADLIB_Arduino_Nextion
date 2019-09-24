@@ -33,7 +33,7 @@
           if(NEX_RET_SLEEP_MODE == c)
           {
               _sleepModeNextion=true;
-          }
+          } 
           else
           {
               if(NEX_RET_EXIT_SLEEP_MODE == c)
@@ -164,7 +164,7 @@ In configuration file NexConfig.h, you can find two macros below:
 If you want to change the default serial to debug or communicate with Nextion ,
 you need to modify the line in configuration file:
 
-	#define dbSerial Serial    ---> #define dbSerial Serialxxx
+    #define dbSerial Serial    ---> #define dbSerial Serialxxx
     #define nexSerial Serial2  ---> #define nexSerial Serialxxx
 
 ## Disable Debug Serial
