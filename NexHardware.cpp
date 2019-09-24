@@ -14,23 +14,33 @@
  */
 #include "NexHardware.h"
 
-#define NEX_RET_CMD_FINISHED            (0x01)
-#define NEX_RET_EVENT_LAUNCHED          (0x88)
-#define NEX_RET_EVENT_UPGRADED          (0x89)
+#define NEX_RET_CMD_FINISHED                (0x01)
+#define NEX_RET_EVENT_LAUNCHED              (0x88)
+#define NEX_RET_EVENT_UPGRADED              (0x89)
 #define NEX_RET_EVENT_TOUCH_HEAD            (0x65)     
 #define NEX_RET_EVENT_POSITION_HEAD         (0x67)
 #define NEX_RET_EVENT_SLEEP_POSITION_HEAD   (0x68)
 #define NEX_RET_CURRENT_PAGE_ID_HEAD        (0x66)
 #define NEX_RET_STRING_HEAD                 (0x70)
 #define NEX_RET_NUMBER_HEAD                 (0x71)
-#define NEX_RET_INVALID_CMD             (0x00)
-#define NEX_RET_INVALID_COMPONENT_ID    (0x02)
-#define NEX_RET_INVALID_PAGE_ID         (0x03)
-#define NEX_RET_INVALID_PICTURE_ID      (0x04)
-#define NEX_RET_INVALID_FONT_ID         (0x05)
-#define NEX_RET_INVALID_BAUD            (0x11)
-#define NEX_RET_INVALID_VARIABLE        (0x1A)
-#define NEX_RET_INVALID_OPERATION       (0x1B)
+#define NEX_RET_INVALID_CMD                 (0x00)
+#define NEX_RET_INVALID_COMPONENT_ID        (0x02)
+#define NEX_RET_INVALID_PAGE_ID             (0x03)
+#define NEX_RET_INVALID_PICTURE_ID          (0x04)
+#define NEX_RET_INVALID_FONT_ID             (0x05)
+#define NEX_RET_INVALID_BAUD                (0x11)
+#define NEX_RET_INVALID_VARIABLE            (0x1A)
+#define NEX_RET_INVALID_OPERATION           (0x1B)
+
+/*
+ * Code added: Identifiers sent by Nextion
+ */
+#define NEX_RET_SLEEP_MODE                  (0X86)
+#define NEX_RET_EXIT_SLEEP_MODE             (0X87)
+bool _sleepModeNextion = false;
+/*
+ * End code added: Identifiers sent by Nextion
+ */
 
 /*
  * Receive uint32_t data. 
@@ -64,7 +74,7 @@ bool recvRetNumber(uint32_t *number, uint32_t timeout)
         && temp[7] == 0xFF
         )
     {
-        *number = ((uint32_t)temp[4] << 24) | ((uint32_t)temp[3] << 16) | (temp[2] << 8) | (temp[1]);
+        *number = ((uint32_t)temp[4] << 24) | ((uint32_t)temp[3] << 16) | ((uint32_t)temp[2] << 8) | ((uint32_t)temp[1]);
         ret = true;
     }
 
@@ -82,7 +92,6 @@ __return:
     
     return ret;
 }
-
 
 /*
  * Receive string data. 
@@ -174,7 +183,6 @@ void sendCommand(const char* cmd)
     nexSerial.write(0xFF);
 }
 
-
 /*
  * Command is executed successfully. 
  *
@@ -216,7 +224,6 @@ bool recvRetCommandFinished(uint32_t timeout)
     return ret;
 }
 
-
 bool nexInit(void)
 {
     bool ret1 = false;
@@ -224,6 +231,37 @@ bool nexInit(void)
     
     dbSerialBegin(9600);
     nexSerial.begin(9600);
+    sendCommand("");
+    sendCommand("bkcmd=1");
+    ret1 = recvRetCommandFinished();
+    sendCommand("page 0");
+    ret2 = recvRetCommandFinished();
+    return ret1 && ret2;
+}
+
+bool nexInit(SoftwareSerial *serialPort)
+{
+    nexSerial = serialPort;
+    bool ret1 = false;
+    bool ret2 = false;
+    
+    dbSerialBegin(9600);
+    nexSerial->begin(9600);
+    sendCommand("");
+    sendCommand("bkcmd=1");
+    ret1 = recvRetCommandFinished();
+    sendCommand("page 0");
+    ret2 = recvRetCommandFinished();
+    return ret1 && ret2;
+}
+
+bool nexInit(int baudDebug, int baudDisplay, int pinRX, int pinTX)
+{
+    bool ret1 = false;
+    bool ret2 = false;
+    
+    dbSerialBegin(baudDebug);
+    nexSerial.begin(baudDisplay, SERIAL_8N1, pinRX, pinTX);
     sendCommand("");
     sendCommand("bkcmd=1");
     ret1 = recvRetCommandFinished();
@@ -261,7 +299,45 @@ void nexLoop(NexTouch *nex_listen_list[])
                 }
                 
             }
+        } 
+        
+        /*
+         * Code added: Change the state of the variable that stores the state of sleep mode.
+         */
+        else 
+        {
+            if(NEX_RET_SLEEP_MODE == c)
+            {
+                _sleepModeNextion=true;
+            } 
+            else
+            {
+                if(NEX_RET_EXIT_SLEEP_MODE == c)
+                {
+                    _sleepModeNextion=false;
+                }
+            }
         }
+        /*
+         * End code added: Change the state of the variable that stores the state of sleep mode.
+         */
     }
 }
 
+/* 
+ * Code added: 
+ * Detect if the device is in sleepMode
+ * sleepModeNextion returns if the device automatically enters sleep mode
+ * setSleepNexsetSleepNextion allows you to modify the variable that stores whether it is in sleep mode or not, 
+ * useful when the device wakes up by command and automatically. It allows you to modify the variable that stores 
+ * whether it is in sleep mode or not, useful when the device wakes up by command and automatically.
+ */
+bool sleepModeNextion(){
+    return _sleepModeNextion;
+}
+bool setSleepNextion(bool status){
+    _sleepModeNextion=status;
+}
+/*
+ * End code added.
+ */
