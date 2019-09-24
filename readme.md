@@ -28,14 +28,14 @@
       original:  *number = ((uint32_t)temp[4] << 24) | ((uint32_t)temp[3] << 16) | (temp[2] << 8) | (temp[1]);
       modified:  *number = ((uint32_t)temp[4] << 24) | ((uint32_t)temp[3] << 16) | ((uint32_t)temp[2] << 8) | ((uint32_t)temp[1]);
   Code added after this line: if (NEX_RET_EVENT_TOUCH_HEAD == c)
-	  else 
-	  {
-	  	if(NEX_RET_SLEEP_MODE == c)
-	  	{
-	  		_sleepModeNextion=true;
-	  	} 
-	  	else
-	  	{
+      else 
+      {
+          if(NEX_RET_SLEEP_MODE == c)
+          {
+              _sleepModeNextion=true;
+          }
+          else
+          {
               if(NEX_RET_EXIT_SLEEP_MODE == c)
               {
                   _sleepModeNextion=false;
@@ -70,8 +70,8 @@
       bool nexInit(SoftwareSerial *serialPort);
 * NexGpio.cpp file (thanks to speedfox-uk@github):
   Modified:
-      Serial.print(cmd);
-      //Serial.print(cmd);
+      original: Serial.print(cmd);
+      modified: //Serial.print(cmd);
 * HMIHardwareSerial.ino file added. (thanks to lincomatic@github)
 * HMISoftwareSerial.ino file added. (thanks to lincomatic@github)
 * HMI.cpp file added. (code by laicheng.zhang@itead.cc - thanks to lincomatic@github)
