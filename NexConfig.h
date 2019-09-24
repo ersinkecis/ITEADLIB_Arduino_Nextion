@@ -37,7 +37,10 @@
 
 //Serial for TX0-RX0, Serial1 for TX1-RX1, Serial2 for TX2-RX2 etc:
 //#define nexSerial Serial2
-#define nexSerial Serial
+//#define nexSerial Serial
+#include <SoftwareSerial.h>
+extern SoftwareSerial HMISerial;
+#define nexSerial HMISerial
 
 #ifdef DEBUG_SERIAL_ENABLE
 #define dbSerialPrint(a)    dbSerial.print(a)
