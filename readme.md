@@ -137,8 +137,7 @@ can be open in your browser such as Chrome, Firefox or any one you like.
 
 # Suppported Mainboards
 
-**old text: All boards, which has one or more hardware serial, can be supported.**
-**new text: All boards, can be supported. :)**
+**Now, All boards, can be supported. :)**
 
 For example:
 
