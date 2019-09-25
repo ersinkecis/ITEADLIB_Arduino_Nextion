@@ -120,7 +120,7 @@ Latest source code(master branch) can be downloaded:
 You can also clone it via git:
 
     git clone   https://github.com/itead/ITEADLIB_Arduino_Nextion
-    fixed clone https://github.com/ersinkecis/ITEADLIB_Arduino_Nextion_ALL_FIXED
+    fixed clone https://github.com/ersinkecis/Nextion_SOFTWARE_SERIAL_AND_OTHER_FIXES
 
 ## Releases(stable)
 
